@@ -3,7 +3,8 @@ import json
 from tqdm import tqdm
 
 from cleaning import clean_text, clean_title
-import processing as find_raw_tokens
+import processing as find_raw_tokens, find_weighted_token_counts
+
 
 class Article(object):
     def __init__(self, j, tokenizer):
@@ -16,11 +17,13 @@ class Article(object):
         self.abstract = []
         for paragraph in j['abstract']:
             text = clean_text(paragraph['text'])
-            para_tokens = tokenizer.
-            self.abstract.append()
+            para_token_counts = find_weighted_token_counts(text, tokenizer)
+            self.abstract.append(text)
         self.paragraphs = []
         for paragraph in j['body_text']:
-            self.paragraphs.append(clean_text(paragraph['text']))
+            text = clean_text(paragraph['text'])
+            para_tokens
+            self.paragraphs.append(text)
 
     def __str__(self):
         return f'<{self.title}>'
