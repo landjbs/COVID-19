@@ -12,9 +12,12 @@ class Article(object):
         meta = j['metadata']
         self.title = clean_title(meta['title'])
         # cache text and process tokens
+        tokens = {}
         self.abstract = []
         for paragraph in j['abstract']:
-            
+            text = clean_text(paragraph['text'])
+            para_tokens = tokenizer.
+            self.abstract.append()
         self.paragraphs = []
         for paragraph in j['body_text']:
             self.paragraphs.append(clean_text(paragraph['text']))
