@@ -12,7 +12,7 @@ token (eg. & -> ampersand).
 These tokens are then converted into a flashtext matcher for ~constant time,
 greedy lookup of phrases and words. Flashtext is a great module based on this
 paper: https://arxiv.org/pdf/1711.00046.pdf. The matcher is applied in
-knowledgeFinder.
+knowledge_finder.
 """
 
 import os
@@ -25,14 +25,11 @@ from scipy.spatial.distance import cosine
 
 from processing.cleaner import clean_text, clean_wiki
 import knowledge.knowledge_finder as knowledge_finder
-from dataStructures.objectSaver import (save,
-                                        load,
-                                        safe_make_folder,
-                                        delete_folder)
+from utils import (save, load, safe_make_folder, delete_folder)
 
 
 ## Knowledge Set Functions ##
-def build_knowledgeSet(knowledgeFile, additionalTokens=None, numberRange=None,
+def build_knowledge_set(knowledgeFile, additionalTokens=None, numberRange=None,
                         outPath=None):
     """
     Args: \n delimited knowledgeFile of phrases to treat as knowledge tokens
@@ -106,7 +103,7 @@ def fredDict_from_wikiFile(filePath, knowledgeProcessor, outPath=None):
             commaLoc = line.find(',')
             rawText = line[(commaLoc+2):]
             # find the tokens
-            tokensFound = knowledgeFinder.find_weighted_tokenCounts(rawText,
+            tokensFound = knowledge_finder.find_weighted_tokenCounts(rawText,
                                                             knowledgeProcessor)
             tokenCounts.update(tokensFound)
             tokenAppearances.update(set(tokensFound))
@@ -151,7 +148,7 @@ def fredDict_from_folderPath(folderPath, knowledgeProcessor, outPath=None):
             # read in the current file
             text = FileObj.read()
             # find both greedy and subtokens in text
-            tokensFound = list(knowledgeFinder.find_rawTokens(text,
+            tokensFound = list(knowledge_finder.find_rawTokens(text,
                                                             knowledgeProcessor))
             # add tokens counts to tokenCounts counter
             tokenCounts.update(tokensFound)
