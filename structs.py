@@ -1,12 +1,11 @@
 import re
+from unidecode import unidecode
 
 ## Matchers ##
 # matches non-alphanumeric, space, or sentence-ending punctuation (dash must be at end)
 stripMatcher = re.compile(r'[^0-9a-zA-Z\t\n\s_.?!:;/<>*&^%$#@()"~`+-]')
 # matches any sequence of tabs, newlines, spaces, underscores, and dashes
-spaceMatcher = re.compile(r'[\t\n\s_.?!:;/<>*&^%$#@()"~`+-]+')
-# matches for special wiki words like '(disambiguation)'
-wikiMatcher = re.compile(r"(disambiguation)")
+spaceMatcher = re.compile(r'[\t\n\s_?!:;/<>*&^%$#@()"~`+-]+')
 # matches \t \r and \n in titles
 slashMatcher = re.compile(r".\r|.\n|.\t")
 
@@ -41,12 +40,12 @@ class Article(object):
     def __init__(self, j):
         self.id = j['paper_id']
         meta = j['metadata']
-        self.title = meta['title']
+        self.title = clean_title(meta['title'])
         abstract = j['abstract']
         self.abstract = abstract if (abstract!=[]) else None
         self.paragraphs = []
         for paragraph in j['body_text']:
-            self.paragraphs.append(paragraph['text'])
+            self.paragraphs.append(clean_text(paragraph['text']))
 
     def __str__(self):
         return f'<{self.title}>'
@@ -56,6 +55,6 @@ class Article(object):
         print('\n'.join(self.paragraphs))
 
 
-class Database(object):
-    def __init__(self):
-        keywords = ['co-infections']
+# class Database(object):
+#     def __init__(self):
+#         keywords = ['co-infections']
