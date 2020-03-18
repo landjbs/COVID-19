@@ -27,23 +27,6 @@ for top_folder in tqdm(os.listdir('2020-03-13')):
 import re
 from unidecode import unidecode
 
-## Matchers ##
-# matches things that look like a single html tag
-tagMatcher = re.compile(r"<[^\s][^<]*>")
-# matches non-alphanumeric, space, or sentence-ending punctuation (dash must be at end)
-stripMatcher = re.compile(r'[^0-9a-zA-Z\t\n\s_.?!:;/<>*&^%$#@()"~`+-]')
-# matches any sequence of tabs, newlines, spaces, underscores, and dashes
-spaceMatcher = re.compile(r'[\t\n\s_.?!:;/<>*&^%$#@()"~`+-]+')
-# matches for special wiki words like '(disambiguation)'
-wikiMatcher = re.compile(r"(disambiguation)")
-# matches \t \r and \n in titles
-slashMatcher = re.compile(r".\r|.\n|.\t")
-# matches for special parts of url
-urlMatcher = re.compile(r"https|http|www|com|org|edu|.en")
-# matches for the end of files
-fileMatcher = re.compile(r"\.\S+")
-# matcher for search spacing; identical to spaceMatcher, but " are preserved
-searchSpaceMatcher = re.compile(r'[\t\n\s_.?!:;/<>*&^%$#@()~`+-]+')
 
 # converts anything that looks like a year range (eg. 1910-11) into two years (eg. 1910 1911)
 # rangedString = re.sub(r'\b(?P<firstTwo>[0-9]{2})(?P<secondTwo>[0-9]{2})-(?P<lastTwo>[0-9]{2}) ', "\g<firstTwo>\g<secondTwo> \g<firstTwo>\g<lastTwo>", dewikiedWiki)
@@ -96,7 +79,6 @@ def clean_title(rawTitle):
     """
     Cleans title of webpage, removing large spaces and junk while
     preserving valid punctuation, numbers, and capitalization.
-    TO IMPROVE
     """
     deslashedTitle = re.sub(slashMatcher, "", rawTitle)
     spacedTitle = re.sub(spaceMatcher, " ", deslashedTitle).strip()

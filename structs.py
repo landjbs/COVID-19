@@ -1,3 +1,16 @@
+import re
+
+## Matchers ##
+# matches non-alphanumeric, space, or sentence-ending punctuation (dash must be at end)
+stripMatcher = re.compile(r'[^0-9a-zA-Z\t\n\s_.?!:;/<>*&^%$#@()"~`+-]')
+# matches any sequence of tabs, newlines, spaces, underscores, and dashes
+spaceMatcher = re.compile(r'[\t\n\s_.?!:;/<>*&^%$#@()"~`+-]+')
+# matches for special wiki words like '(disambiguation)'
+wikiMatcher = re.compile(r"(disambiguation)")
+# matches \t \r and \n in titles
+slashMatcher = re.compile(r".\r|.\n|.\t")
+
+
 def clean_text(rawString):
     """
     Cleans rawString by replacing spaceMatcher and tagMatcher with a single
@@ -12,6 +25,16 @@ def clean_text(rawString):
     # lowercase the alpha chars that remain
     loweredString = spacedString.lower()
     return loweredString
+
+
+def clean_title(rawTitle):
+    """
+    Cleans title of webpage, removing large spaces and junk while
+    preserving valid punctuation, numbers, and capitalization.
+    """
+    deslashedTitle = re.sub(slashMatcher, "", rawTitle)
+    spacedTitle = re.sub(spaceMatcher, " ", deslashedTitle).strip()
+    return spacedTitle
 
 
 class Article(object):
