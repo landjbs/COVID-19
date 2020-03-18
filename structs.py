@@ -1,19 +1,20 @@
-import re
-from unidecode import unidecode
-from flashtext import KeywordProcessor
+import os
+import json
+from tqdm import tqdm
+
 from cleaning import *
 
 
 class Article(object):
-    def __init__(self, j, knowledgeProcessor):
+    def __init__(self, j, tokenizer):
         # get metadata
         self.id = j['paper_id']
         meta = j['metadata']
         self.title = clean_title(meta['title'])
         # cache text and process tokens
-        abstract = j['abstract']
-        self.abstract = abstract if (abstract!=[]) else None
-        print(self.abstract)
+        self.abstract = []
+        for paragraph in j['abstract']:
+            
         self.paragraphs = []
         for paragraph in j['body_text']:
             self.paragraphs.append(clean_text(paragraph['text']))
@@ -26,11 +27,14 @@ class Article(object):
         print('\n'.join(self.paragraphs))
 
 
-class Database(object):
-    def __init__(self, knowledgeProcessor):
-        self.knowledgeProcessor = knowledgeProcessor
 
-    def read_articles(self):
+class Database(object):
+    def __init__(self, tokenizer):
+        self.tokenizer = tokenizer
+        x = [i for i in self.process_articles()]
+
+    def process_articles(self):
+        tokenizer = self.tokenizer
         file_folders = ['bioxiv_medrxiv', 'comm_use_subset',
                         'noncomm_use_subset', 'pmc_custom_license']
         for top_folder in tqdm(os.listdir('2020-03-13')):
@@ -40,5 +44,5 @@ class Database(object):
                         path = f'2020-03-13/{top_folder}/{top_folder}/{path}'
                         with open(path, 'r') as load_file:
                             article_json = json.load(load_file)
-                            article_obj = Article(article_json)
+                            article_obj = Article(article_json, tokenizer)
                             yield article_obj
