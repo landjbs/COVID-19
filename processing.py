@@ -30,4 +30,4 @@ for top_folder in os.listdir('2020-03-13'):
                 with open(path, 'r') as load_file:
                     article_json = json.load(load_file)
                     article_obj = parse_article_json(article_json)
-                    print(article_obj.abstract)
+                    print(article_obj.text)
