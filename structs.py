@@ -1,5 +1,6 @@
 import re
 from unidecode import unidecode
+from flashtext import KeywordProcessor
 
 
 ## Matchers ##
@@ -61,5 +62,23 @@ class Article(object):
 
 class Database(object):
     def __init__(self):
-        match = re.compile('co-infections')
-        
+        # build text matcher for tokens
+        tokens = ['co-infection']
+        knowledgeSet = {clean_text(s) for s in tokens}
+        knowledgeProcessor = KeywordProcessor(case_sensitive=False)
+        for i, keyword in enumerate(knowledgeSet):
+            knowledgeProcessor.add_keyword(keyword)
+
+
+    def read_articles(self):
+        file_folders = ['bioxiv_medrxiv', 'comm_use_subset',
+                        'noncomm_use_subset', 'pmc_custom_license']
+        for top_folder in tqdm(os.listdir('2020-03-13')):
+            if top_folder in file_folders:
+                for path in os.listdir(f'2020-03-13/{top_folder}/{top_folder}'):
+                    if path.endswith('.json'):
+                        path = f'2020-03-13/{top_folder}/{top_folder}/{path}'
+                        with open(path, 'r') as load_file:
+                            article_json = json.load(load_file)
+                            article_obj = Article(article_json)
+                            yield article_obj
