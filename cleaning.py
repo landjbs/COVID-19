@@ -1,6 +1,7 @@
 import re
 from unidecode import unidecode
 
+
 ## Matchers ##
 # matches non-alphanumeric, space, or sentence-ending punctuation (dash must be at end)
 stripMatcher = re.compile(r'[^0-9a-zA-Z\t\n\s_.?!:;/<>*&^%$#@()"~`+-]')

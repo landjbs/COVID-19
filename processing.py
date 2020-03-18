@@ -1,4 +1,4 @@
-def find_rawTokens(inStr, knowledgeProcessor):
+def find_raw_tokens(inStr, knowledgeProcessor):
     """
     Finds set of tokens used in inStr without scoring or count.
     Used to tokenize search queries.
