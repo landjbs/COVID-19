@@ -1,6 +1,5 @@
 """
-Functions for all text processing involding knowledgeSet and tokenizer
-built in models.knowledge.knowledgeBuilder.
+Functions for all text processing involding knowledgeSet and tokenizer.
 """
 
 import re
@@ -35,30 +34,6 @@ def find_rawTokens(inStr, tokenizer):
                 smallTokens = tokenizer.extract_keywords(word)
                 allTokens += smallTokens
     return allTokens
-
-
-def DEPRECATED_find_weighted_tokenCounts(inStr, tokenizer):
-    """
-    DEPRECATED
-    Finds dict mapping tokens used in inStr to number of times used.
-    Does not normalize by length, div, or average frequency.
-    """
-    # get multi-occurence list of the greedy tokens in inStr
-    greedyTokens = tokenizer.extract_keywords(inStr)
-    # get multi-occurence list of sub tokens in ' '-split greed tokens
-    subTokens = []
-    for token in greedyTokens:
-        splitToken = token.split()
-        if not (len(splitToken)==1):
-            for word in splitToken:
-                subTokens += tokenizer.extract_keywords(word)
-    # get counts of sub tokens and normalize by 0.7
-    weightedSubCounter = {token:(0.7*count)
-                            for token, count in Counter(subTokens).items()}
-    # combine greedTokens and normalized subTokens to get weighted token counts
-    countedTokens = Counter(greedyTokens)
-    countedTokens.update(weightedSubCounter)
-    return countedTokens
 
 
 def find_weighted_tokenCounts(text, tokenizer, maxChunkSize=5):
@@ -143,12 +118,7 @@ def find_scoredTokens(divText, div, tokenizer, freqDict, cutoff):
 
     # use tokenizer to extract weighted token counts from divText
     weightedTokenCounts = find_weighted_tokenCounts(divText, tokenizer)
-
-    # find number of words in divText or (if url) number chars/(avg word len)
-    if div=='url':
-        divLen = len(divText) / 5
-    else:
-        divLen = len(divText.split())
+    divLen = len(divText.split())
 
     multiplier = divMultipier
 
