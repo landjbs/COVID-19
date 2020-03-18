@@ -17,15 +17,21 @@ knowledge_finder.
 
 import os
 import re
-from numpy import log, dot, sum
 from tqdm import tqdm
+from numpy import log, dot, sum
 from collections import Counter
 from flashtext import KeywordProcessor
 from scipy.spatial.distance import cosine
 
-from processing.cleaner import clean_text, clean_wiki
+from processing.cleaner import clean_text
 import knowledge.knowledge_finder as knowledge_finder
 from utils import (save, load, safe_make_folder, delete_folder)
+
+
+def build_knowledge_set():
+
+
+
 
 
 ## Knowledge Set Functions ##
