@@ -9,9 +9,9 @@ from collections import Counter
 
 
 # dict mapping html divs to score  multiplier
-divMultipiers = {'title':           5,
-                'abstract':         6,
-                'body':             5}
+divMultipiers = {'title':            6,
+                 'abstract':         5,
+                 'body':             4}
 
 
 def find_rawTokens(inStr, tokenizer):
