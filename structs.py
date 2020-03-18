@@ -2,8 +2,8 @@ import os
 import json
 from tqdm import tqdm
 
-from cleaning import *
-
+from cleaning import clean_text, clean_title
+import processing as find_raw_tokens
 
 class Article(object):
     def __init__(self, j, tokenizer):
