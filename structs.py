@@ -5,7 +5,7 @@ from unidecode import unidecode
 # matches non-alphanumeric, space, or sentence-ending punctuation (dash must be at end)
 stripMatcher = re.compile(r'[^0-9a-zA-Z\t\n\s_.?!:;/<>*&^%$#@()"~`+-]')
 # matches any sequence of tabs, newlines, spaces, underscores, and dashes
-spaceMatcher = re.compile(r'[\t\n\s_?!:;/<>*&^%$#@()"~`+-]+')
+spaceMatcher = re.compile(r'[\t\n\s_:;/<>*&^%$#@()"~`+-]+')
 # matches \t \r and \n in titles
 slashMatcher = re.compile(r".\r|.\n|.\t")
 
@@ -21,8 +21,11 @@ def clean_text(rawString):
     cleanedString = re.sub(stripMatcher, "", rawString)
     # replace spaceMatcher with " " and strip surround whitespace
     spacedString = re.sub(spaceMatcher, " ", cleanedString).strip()
+    # detach sentence-ending punc from last words
+    detachedString = re.sub(r"(?<=[a-zA-z])(?P<punc>[.!?])(?=(\s[A-Z]*|\b))",
+                            " \g<punc>", spacedString)
     # lowercase the alpha chars that remain
-    loweredString = spacedString.lower()
+    loweredString = detachedString.lower()
     return loweredString
 
 
@@ -55,6 +58,6 @@ class Article(object):
         print('\n'.join(self.paragraphs))
 
 
-# class Database(object):
-#     def __init__(self):
-#         keywords = ['co-infections']
+class Database(object):
+    def __init__(self):
+        keywords = ['co-infections']
