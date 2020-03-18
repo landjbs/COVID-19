@@ -18,9 +18,8 @@ def parse_article_json(j):
     id = j['paper_id']
     meta = j['metadata']
     title = meta['title']
-    authors = meta['authors']
     abstract = j['abstract']
-    return Article(id=id, authors=authors, title=title, text=abstract)
+    return Article(id=id, title=title, text=abstract)
 
 
 for top_folder in os.listdir('2020-03-13'):
@@ -31,4 +30,4 @@ for top_folder in os.listdir('2020-03-13'):
                 with open(path, 'r') as load_file:
                     article_json = json.load(load_file)
                     article_obj = parse_article_json(article_json)
-                    print(article_obj)
+                    print(article_obj.abstract)
