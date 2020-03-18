@@ -28,7 +28,7 @@ import knowledge.knowledge_finder as knowledge_finder
 from utils import (save, load, safe_make_folder, delete_folder)
 
 
-def build_knowledge_set(top_path):
+def build_knowledge_set(top_path, out_path):
     top_path = 'data/in_data/2020-03-13'
     file_folders = ['bioxiv_medrxiv', 'comm_use_subset',
                     'noncomm_use_subset', 'pmc_custom_license']
@@ -52,6 +52,8 @@ def build_knowledge_set(top_path):
                         for paragraph in j['body_text']:
                             for token in (clean_text(paragraph['text'])).split():
                                 tokens.add(token)
+    save_pickle(tokens, out_path)
+    return tokens
 
 
 
