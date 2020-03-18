@@ -24,13 +24,10 @@ def clean_text(rawString):
     # replace spaceMatcher with " " and strip surround whitespace
     spacedString = re.sub(spaceMatcher, " ", cleanedString).strip()
     # detach sentence-ending punc from last words
-    detachedString = re.sub(r"(?<=[a-zA-z])(?P<punc>[.!?])(?=\s[a-zA-Z])",
+    detachedString = re.sub(r"(?<=[a-zA-z])(?P<punc>[.!?])(?=(\s[a-zA-Z]|$))",
                             " \g<punc>", spacedString)
-    detachedString = re.sub(r"(?<=[a-zA-z])(?P<punc>[.!?])(?=$)",
-                            " \g<punc>", detachedString)
     # lowercase the alpha chars that remain
     loweredString = detachedString.lower()
-    print(loweredString)
     return loweredString
 
 
