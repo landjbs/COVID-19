@@ -7,3 +7,7 @@ class Article(object):
 
     def __str__(self):
         return f'<{self.title} by {self.authors}>'
+
+    def author_str(self):
+        ''' Gets string of authors '''
+        
